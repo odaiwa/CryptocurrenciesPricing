@@ -1,6 +1,9 @@
 body,html {
-  height: 100%;
-  margin:5px;
+    height: 100%;
+    /* margin:5px; */
+    background-image: url("assets/images/backgroundimage.jpg");
+    background-size: cover;
+    /* background-repeat: no-repeat; */
 }
 
 img{
@@ -9,29 +12,35 @@ img{
     height: 20px;
 }
 
+
 .currency-card {
-  margin: 10px;
-  margin-left: 5px;
-  height: 250px;
+    margin: 10px;
+    width: 250px;
+    height: 250px;
+    border: 1px solid black;
+    border-radius: 10px;  
+    background-color: aliceblue;
+    display: inline-block;
 }
-.custom-switch {
-  padding-left: 0 !important;
-}
+/* .currency-card:hover{
+    opacity: 1;
+} */
+
 .card-title {
-  display: inline-block ;
-  padding: 0% ;
-}
-
-li {
-  margin: 4px;
-}
-
-.custom-control-label {
-  display: inline-block ;
-  float: right;
+    display: inline-block ;
+    padding: 0% ;
 }
 
 .my-paragraph {
-  position: absolute;
-  padding-top: 4px;
+    position: absolute;
+    padding-top: 4px;
+}
+
+.switch{
+    margin-left: 100px;
+    display: inline-block;
+}
+
+.currency-header{
+    
 }

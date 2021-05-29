@@ -2,35 +2,59 @@
 "use strict";
 
 
-async function showUsers() {
+async function showCurrencies() {
     try {
-        const users = await getJSON("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc");
-        displayUsers(users);
+        const Currencies = await getJSON("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc");
+        displayCurrencies(Currencies);
+    }
+    catch (err) {
+        console.log("Error")
+        alert(err.status);
+    }
+}
+
+function displayCurrencies(Currencies) {
+    $("#currencies").empty();
+    for (const Currency of Currencies) {
+        const tr =
+            `<div class="currency-card">
+                <div class="card-body">
+                    <div id="currency-header">
+                        <img src="${Currency.image}" />
+                        <h5 class="card-title">${Currency.symbol}</h5>
+                        <p class="card-text">${Currency.name}</p>
+                    </div> 
+                
+                <button class="btn btn-info" onclick="MoreInfoForCurrency('${Currency.id}')">More info</button>
+                <p id="more-info-about-currency-${Currency.id}"></p>
+                </div>
+            </div>`;
+        $("#currencies").append(tr);
+    }
+}
+
+
+async function MoreInfoForCurrency(event) {
+    // event.preventDefault();
+    /*
+    document.getElementById(event.target.id + event.target.id).innerHTML = `<div class="loading-price">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden"></span>
+    </div>
+  </div>
+  `*/
+  console.log(`https://api.coingecko.com/api/v3/coins/${event}`)
+//   console.log(event.id)
+    try {
+        const response = await getJSON(`https://api.coingecko.com/api/v3/coins/${event}`);
+        document.getElementById(`more-info-about-currency-${event}`).innerHTML = 
+            `${response.market_data.current_price.usd} $ <br>
+            ${response.market_data.current_price.eur} € <br>
+            ${response.market_data.current_price.ils} ₪`
     }
     catch (err) {
         alert(err.status);
     }
 }
 
-function displayUsers(users) {
-    $("#child").empty();
-    for (const user of users) {
-        const tr =
-            `<div class="currency-card" style="width: 18rem;">
-                <div class="card-body">
-                <div class="custom-control custom-switch">
-                <h5 class="card-title"> <img src="${user.image}}" />${user.symbol}</h5>
-                <input type="checkbox" value="${user.symbol}" class="custom-control-input ${user.symbol}" id="${user.id}"> 
-                <label class="custom-control-label" for="${user.id}"></label>
-            </div>
-          <p class="card-text">${user.name}</p>
-            <button id="${user.id}" class="btn btn-info"> More info</button>
-            <p class="collapse .loading-price text-danger" id="${user.id + user.id}">
-            </p>
-        </div>
-      </div>`;
-    $("#child").append(tr);
-    }  דאק
-}
-
-showUsers();
+showCurrencies();
