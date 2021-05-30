@@ -26,51 +26,48 @@ function displayCurrencies(Currencies) {
                     </div> 
                 
                 <button class="btn btn-info" onclick="MoreInfoForCurrency('${Currency.id}')">More info</button>
-                <p id="more-info-about-currency-${Currency.id}"></p>
+                <div id="more-info-about-currency-${Currency.id}"></div>
                 </div>
             </div>`;
         $("#currencies").append(tr);
     }
 }
 
+function footerData(){
+    const d = new Date();
+    const n = d.getFullYear();
+    const footerinfo=`Copyright © ${n} Odai Wattad`
+    document.getElementById("footer-p").innerHTML = footerinfo;
+}
 
 async function MoreInfoForCurrency(event) {
 
 
-    //    console.log(`#more-info-about-currency-${event}`)
-    //    console.log(event);
-
     const currencyMoreInfo = `more-info-about-currency-${event}`;
     const moreInfoAboutCurrency = document.getElementById(currencyMoreInfo);
-    if (!moreInfoAboutCurrency.innerHTML.length === 0) {
-        console.log(moreInfoAboutCurrency);
-        $(currencyMoreInfo).empty();
+    console.log(moreInfoAboutCurrency.innerText)
+    if (moreInfoAboutCurrency.innerText.length !== 0) {
+        $("#"+currencyMoreInfo).empty();
     }
     else {
         console.log("there's no more info about currency")
         try {
             const response = await getJSON(`https://api.coingecko.com/api/v3/coins/${event}`);
             $(currencyMoreInfo).empty();
-            // console.log(response.market_data.current_price.usd)
             const p = `
-            <div>
-                <p id="more-info-${event}-dollar">${response.market_data.current_price.usd} $</p>
+            <div class="currency-prices">
+                <p id="more-info-price">${response.market_data.current_price.ils} ₪</p>
+                <p id="more-info-price">${response.market_data.current_price.usd} $</p>
+                <p id="more-info-price">${response.market_data.current_price.eur} €</p>
             </div>
             `;
-             console.log("Pre-MoreInfo about "+event+ " "+p);
-             $(currencyMoreInfo).append(p);
-             moreInfoAboutCurrency.innerHTML = p;
-             console.log("Post-MoreInfo about "+event);
-            // console.log(response.market_data.current_price.usd+"asdasd")
-            /*  document.getElementById(`more-info-about-currency-${event}`).innerHTML = 
-            `${response.market_data.current_price.usd} $<br>
-            ${response.market_data.current_price.eur} € <br>
-            ${response.market_data.current_price.ils} ₪`*/
+            $("#"+currencyMoreInfo).append(p);
+
         }
         catch (err) {
             alert(err.status);
         }
     }
 }
-
+footerData();
 showCurrencies();

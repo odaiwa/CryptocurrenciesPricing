@@ -4,21 +4,47 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="shortcut icon" href="assets/images/iconfinder_custom-prices_3018570.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <script defer src="jquery-3.6.0.js"></script>
     <script defer src="ajax.js"></script>
     <script defer src="main.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- This link is for the navBar to make it responsive in mobile -->
+    <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>CryptoCurrency Prices</title>
 </head>
 
 <body>
+
+    <nav id="site-nav" class="navbar navbar-expand-md navbar-dark bg-dark mb-3">
+        <div class="container-fluid">
+            <img class="site-icon" src="assets/images/iconfinder_custom-prices_3018570.png" alt="logo of site">
+            <a  class="navbar-brand mr-3">Crypto Pricing</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav">
+                    <a href="#" class="nav-item nav-link">Prices</a>
+                    <a href="#" class="nav-item nav-link">Graph</a>
+                    <a href="#" class="nav-item nav-link">About</a>
+                </div>
+
+            </div>
+        </div>    
+    </nav>
+
     <div id="currencies">
 
     </div>
+
+    <footer class="footer">
+        <p id="footer-p"></p>
+    </footer>
 </body>
 
 </html>

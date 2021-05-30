@@ -1,3 +1,17 @@
+
+@font-face {
+    font-family: TitleFont;
+    src: url(assets/fonts/HydrophiliaLiquid-Regular.ttf)
+}
+.site-icon{
+    margin-right: 10px;
+}
+#site-nav{
+    font-family: TitleFont;
+    color : balck;
+
+}
+
 body,html {
     height: 100%;
     /* margin:5px; */
@@ -5,26 +19,51 @@ body,html {
     background-size: cover;
     /* background-repeat: no-repeat; */
 }
-
+body{
+    display: flex row;
+    justify-content: center;
+}
 img{
     margin-right: 5px;
     width: 20px;
     height: 20px;
 }
-
+@media all and (max-width: 500px) {
+    .currency-card {
+      /* On small screens, we are no longer using row direction but column */
+      flex-direction: column;
+    }
+}
 
 .currency-card {
     margin: 10px;
     width: 250px;
-    height: 250px;
+    height: 260px;
     border: 1px solid black;
     border-radius: 10px;  
+    overflow: hidden;
+    /* max-height: 250px; */
+    
     background-color: aliceblue;
     display: inline-block;
+    opacity:0.9;
+
 }
-/* .currency-card:hover{
+.currency-card:hover{
     opacity: 1;
-} */
+} 
+.footer>p{
+    margin :5px;
+}
+.footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: blue;
+    color: white;
+    text-align: center;
+}
 
 .card-title {
     display: inline-block ;
@@ -35,12 +74,13 @@ img{
     position: absolute;
     padding-top: 4px;
 }
-
+.card-text{
+    margin: 10px !important;
+}
 .switch{
     margin-left: 100px;
     display: inline-block;
 }
-
-.currency-header{
-    
+#more-info-price{
+    margin : 5px;
 }
