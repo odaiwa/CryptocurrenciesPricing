@@ -23,8 +23,7 @@ function displayCurrencies(Currencies) {
                         <img src="${Currency.image}" />
                         <h5 class="card-title">${Currency.symbol}</h5>
                         <p class="card-text">${Currency.name}</p>
-                    </div> 
-                
+                    </div>
                 <button class="btn btn-info" onclick="MoreInfoForCurrency('${Currency.id}')">More info</button>
                 <div id="more-info-about-currency-${Currency.id}"></div>
                 </div>

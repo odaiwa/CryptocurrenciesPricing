@@ -3,20 +3,37 @@
     font-family: TitleFont;
     src: url(assets/fonts/HydrophiliaLiquid-Regular.ttf)
 }
+
 .site-icon{
     margin-right: 10px;
 }
 #site-nav{
     font-family: TitleFont;
-    color : balck;
+    width: 100%;
+    overflow: hidden;
+    /* position: sticky;
+    top: 0; */
+}
+ #currencies{
+    display: flex row;
+} 
+.parallax{
+    background-image: url("assets/images/backgroundimage.jpg");
+  /* Set a specific height */
+  min-height: 500px; 
 
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 body,html {
     height: 100%;
     /* margin:5px; */
-    background-image: url("assets/images/backgroundimage.jpg");
-    background-size: cover;
+
+    position: relative;
     /* background-repeat: no-repeat; */
 }
 body{
