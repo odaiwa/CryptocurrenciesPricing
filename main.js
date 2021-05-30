@@ -35,25 +35,41 @@ function displayCurrencies(Currencies) {
 
 
 async function MoreInfoForCurrency(event) {
-    // event.preventDefault();
-    /*
-    document.getElementById(event.target.id + event.target.id).innerHTML = `<div class="loading-price">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden"></span>
-    </div>
-  </div>
-  `*/
-  console.log(`https://api.coingecko.com/api/v3/coins/${event}`)
-//   console.log(event.id)
-    try {
-        const response = await getJSON(`https://api.coingecko.com/api/v3/coins/${event}`);
-        document.getElementById(`more-info-about-currency-${event}`).innerHTML = 
-            `${response.market_data.current_price.usd} $ <br>
-            ${response.market_data.current_price.eur} € <br>
-            ${response.market_data.current_price.ils} ₪`
+
+
+    //    console.log(`#more-info-about-currency-${event}`)
+    //    console.log(event);
+
+    const currencyMoreInfo = `more-info-about-currency-${event}`;
+    const moreInfoAboutCurrency = document.getElementById(currencyMoreInfo);
+    if (!moreInfoAboutCurrency.innerHTML.length === 0) {
+        console.log(moreInfoAboutCurrency);
+        $(currencyMoreInfo).empty();
     }
-    catch (err) {
-        alert(err.status);
+    else {
+        console.log("there's no more info about currency")
+        try {
+            const response = await getJSON(`https://api.coingecko.com/api/v3/coins/${event}`);
+            $(currencyMoreInfo).empty();
+            // console.log(response.market_data.current_price.usd)
+            const p = `
+            <div>
+                <p id="more-info-${event}-dollar">${response.market_data.current_price.usd} $</p>
+            </div>
+            `;
+             console.log("Pre-MoreInfo about "+event+ " "+p);
+             $(currencyMoreInfo).append(p);
+             moreInfoAboutCurrency.innerHTML = p;
+             console.log("Post-MoreInfo about "+event);
+            // console.log(response.market_data.current_price.usd+"asdasd")
+            /*  document.getElementById(`more-info-about-currency-${event}`).innerHTML = 
+            `${response.market_data.current_price.usd} $<br>
+            ${response.market_data.current_price.eur} € <br>
+            ${response.market_data.current_price.ils} ₪`*/
+        }
+        catch (err) {
+            alert(err.status);
+        }
     }
 }
 
