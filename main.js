@@ -4,6 +4,7 @@
 
 async function showCurrencies() {
     try {
+        //
         const Currencies = await getJSON("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc");
         displayCurrencies(Currencies);
     }
@@ -68,5 +69,24 @@ async function MoreInfoForCurrency(event) {
         }
     }
 }
+const mybutton = document.getElementById("myBtn");
+
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+
+
 footerData();
 showCurrencies();
