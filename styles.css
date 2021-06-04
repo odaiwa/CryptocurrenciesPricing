@@ -22,7 +22,7 @@
     flex-direction:  row;
     flex-wrap: wrap;
     justify-content: center;
-    background-image: url("assets/images/iconfinder_custom-prices_3018570.png");
+    /* background-image: url("assets/images/iconfinder_custom-prices_3018570.png"); */
 } 
 .parallax{
     background-image: url("assets/images/backgroundimage.jpg");
