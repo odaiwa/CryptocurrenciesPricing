@@ -4,7 +4,7 @@ async function showCurrencies() {
         displayCurrencies(Currencies);
     }
     catch (err) {
-        console.log("Error retreving Currencies.");
+        console.log("Error retrieving Currencies.");
     }
 }
 
@@ -16,7 +16,7 @@ async function MoreInfo(currency) {
         return response;
     }
     catch (err) {
-        console.log(`Error retreving info for ${currency}.`);
+        console.log(`Error retrieving info for ${currency}.`);
     }
 }
 
