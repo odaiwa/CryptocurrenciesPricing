@@ -139,6 +139,42 @@ $("#backToTopBtn").on("click", function () {
     $("html, body").animate({ scrollTop: 0 }, 1000);
 });
 
+function showSpecificCountry(){
+    let input = $("#specific-country").val();
+    if(input.length == 0){
+        Swal.fire(
+            'you cannot leave input empty...',
+            'you must support currency name',
+            'error'
+        )
+    }
+
+    let filter, cards, cardContent, title, i;
+    // input = document.getElementById("myFilter");
+    filter = input.toLowerCase();
+    const tobeSelected="#currencies .card .card__content ";
+    // cardContainer = $("#currencies");
+    // console.log(cardContainer)
+    cards = $("#currencies .card");
+    cardContent = $(`${tobeSelected} .card__header`);
+    console.log(cardContent[0].firstChild.nodeValue);
+    // const card = $($(cardsTexts[i]).parentsUntil("div.cards")); // parent card
+    // cards = $("#currencies.card.h4.card__header").$(".card.h4.card__header");
+    for (i = 0; i < cards.length; i++) {
+        // const card = $($(cards[i]).parentsUntil("div.cards"));
+
+      title = (cardContent[i].firstChild.nodeValue.toLowerCase());
+       if (title === input) {
+        //  $(cards[i])..display = "";
+        $(cards[i]).show();
+       } else {
+        //  cards[i].style.display = "none";
+         $(cards[i]).hide();
+       }
+    }
+
+}
+
 
 footerData();
 showCurrencies();

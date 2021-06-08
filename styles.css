@@ -43,6 +43,7 @@ body{
     display: flex row;
     justify-content: center;
 }
+
 img{
     margin-right: 5px;
     width: 20px;
@@ -129,13 +130,15 @@ img{
     bottom: 20px;
     right: 30px;
     z-index: 99;
+    width: 40px;
+    height: auto;
     /* color: white; */
     padding: 3px 10px;
     /* background: linear-gradient(331deg, #303131 10%,#8c8c8f 69%); */
      text-shadow: 0px 2px 4px #919191; 
     border: 1px outset #636363;
-    /* box-shadow: 3px 3px 12px #e8e8e8; */
-    /* border-radius: 50%; */
+     box-shadow: 3px 3px 12px #a5a3a3; 
+     border-radius: 50%; 
   }
   
   .arrow {
@@ -178,5 +181,3 @@ img{
     align-content: center;
     justify-content: center;
 }
-
-
