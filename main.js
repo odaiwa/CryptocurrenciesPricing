@@ -21,19 +21,7 @@ function displayCurrencies(Currencies) {
             </div>
             </div>
         </div>`;
-        /*const tr =
-            `<div class="currency-card">
-                <div class="card-body">
-                    <div id="currency-header">
-                    <h5 class="card-title">${Currency.symbol}</h5>
-                    <p class="card-text">${Currency.name}</p>
-                    </div>
-                    <button class="btn btn-info" onclick="MoreInfoForCurrency('${Currency.id}')">More info</button>
-                    <div class="loader hide-loader" id="${Currency.id}-loader" style="display:none"></div> 
-                
-                    <div id="more-info-about-currency-${Currency.id}"></div>
-                </div>
-            </div>`;*/
+        
         $("#currencies").append(card);
     }
 }
@@ -139,42 +127,49 @@ $("#backToTopBtn").on("click", function () {
     $("html, body").animate({ scrollTop: 0 }, 1000);
 });
 
-function showSpecificCountry(){
+function showSpecificCountry() {
     let input = $("#specific-country").val();
-    if(input.length == 0){
+    if (input.length == 0) {
         Swal.fire(
             'you cannot leave input empty...',
             'you must support currency name',
             'error'
         )
+        showCurrencies();
     }
 
     let filter, cards, cardContent, title, i;
     // input = document.getElementById("myFilter");
-    filter = input.toLowerCase();
-    const tobeSelected="#currencies .card .card__content ";
+    // filter = input.toLowerCase();
+    const tobeSelected = "#currencies .card .card__content ";
     // cardContainer = $("#currencies");
     // console.log(cardContainer)
     cards = $("#currencies .card");
     cardContent = $(`${tobeSelected} .card__header`);
-    console.log(cardContent[0].firstChild.nodeValue);
-    // const card = $($(cardsTexts[i]).parentsUntil("div.cards")); // parent card
-    // cards = $("#currencies.card.h4.card__header").$(".card.h4.card__header");
+    console.log(cardContent[0].firstChild.nodeValue.toLowerCase());
     for (i = 0; i < cards.length; i++) {
-        // const card = $($(cards[i]).parentsUntil("div.cards"));
-
-      title = (cardContent[i].firstChild.nodeValue.toLowerCase());
-       if (title === input) {
-        //  $(cards[i])..display = "";
-        $(cards[i]).show();
-       } else {
-        //  cards[i].style.display = "none";
-         $(cards[i]).hide();
-       }
+        title = (cardContent[i].firstChild.nodeValue.toLowerCase());
+        if (title === input.toLowerCase()) {
+            $(cards[i]).show();
+        } else {
+            $(cards[i]).hide();
+        }
     }
+    let numberofC=0;
+    for(let i=0;i<cards.length;i++){
+        if( $(cards[i]).is(':hidden')){
+            numberofC++;
+        }
+    }
+    numberofC === cards.length ? errorMsgForCurrenct(input) : Swal.fire('','','success');
+
 
 }
 
+function errorMsgForCurrenct(input){
+    Swal.fire(`there is no currency in name ${input.toLowerCase()}`,'','error');
+    showCurrencies();
+}
 
 footerData();
 showCurrencies();
