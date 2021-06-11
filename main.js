@@ -9,13 +9,12 @@
 function displayCurrencies(Currencies) {
     $("#currencies").empty();
     for (const Currency of Currencies) {
-        // console.log(Currency.id)
         const card = `    
-        <div class="card">
+        <div class="card" id=${Currency.symbol}>
             <div class="card__content">
             <label class="switch">
-                <input type="checkbox" onclick="selectCoin('${Currency.symbol}')">
-                <span class="slider round"></span>
+                <input id="${Currency.symbol}Checkbox" type="checkbox" onclick="selectCoin('${Currency.symbol}',${event})">
+                <span  class="slider round"></span>
             </label>
             <h4 class="card__header">${Currency.symbol}</h4>
             <p class="card__info">${Currency.name}</p>
@@ -27,9 +26,16 @@ function displayCurrencies(Currencies) {
             </div>
         </div>`;
 
+
         $("#currencies").append(card);
+
     }
 }
+
+$(".switch").on("click",function(event){
+    console.log();
+});
+
 /**
  * Footer Data.
  */
@@ -37,6 +43,7 @@ function footerData() {
     const d = new Date();
     const n = d.getFullYear();
     const footerInfo = `Copyright © ${n} Odai Wattad`;
+    console.log(footerInfo)
     $("#footer-p").html(footerInfo);
 }
 
@@ -187,6 +194,42 @@ function searchForCurrency() {
     numberofC === cards.length ? errorMsgForCurrenct(input) : console.log(input);
 
 }
+
+function searchCoinByID() {
+    let coinID = $("#specific-currency").val().toLowerCase();
+    if (coinID) {
+        let cards = $("#currencies .card");
+
+        for (let card of cards) {
+            if (card.innerText.toLowerCase().includes(coinID)) {
+                $(card).show();
+            }
+            else {
+                $(card).hide();
+            }
+        }
+    }
+    else {
+        Swal.fire(
+            'you cannot leave input empty...',
+            'you must support currency name',
+            'error'
+        )
+        showCurrencies();
+    }
+    let cards = $("#currencies .card");
+
+    let numberofC = 0;
+    for (let i = 0; i < cards.length; i++) {
+        if ($(cards[i]).is(':hidden')) {
+            numberofC++;
+        }
+    }
+    //
+    numberofC === cards.length ? errorMsgForCurrenct(coinID) : console.log(coinID);
+
+}
+
 /**
  * this function will show a better shaped alert if the name that has
  * been supported is not a real name.
@@ -198,32 +241,83 @@ function errorMsgForCurrenct(input) {
     showCurrencies();
 }
 
-function selectCoin(symbol) {
-    console.log('Start');
+function selectCoin(symbol){
+    if($(`#${symbol}Checkbox`).prop('checked') == true){
+        sessionStorage.setItem(symbol,symbol);
+        console.log(`${symbol} has been selected`);
+    }else{
+        sessionStorage.removeItem(symbol);
+        console.log(`${symbol} has been removed`);
 
-    let n = localStorage.getItem('counter');
-    if(n==='5'){
-        Swal.fire('ddd','dsfsdfs','error');
-        console.log(n);
-        return;
     }
-    if (n === null) {
-        n = 1;
-    } else {
-        n++;
-    }
-    console.log(n);
-    localStorage.setItem("counter", n);
-
-    console.log('End');
 }
-function deleteLocalStorageCounter(){
+
+function deleteLocalStorageCounter() {
 
     let jsonArray = localStorage.getItem("counter");
-    if(jsonArray){
+    if (jsonArray) {
         localStorage.removeItem("counter");
     }
 }
+
+function about() {
+    const aboutMe =
+        `<div id="aboutComponent">
+    <div class="profile-img">
+        <img src="assets/images/IMG-0383.jpg">
+    </div>
+    <div class="about-card">
+        <div class="about-me">
+            <h2>
+                About me :
+            </h2>
+            <p>
+                <h4>Odai Wattad</h4>a 22 years old software Engineer from Jatt, 
+                about to finish my B.Sc. in SCE.<br>
+                Currently learning full-stack development in John Bryce
+            </p>
+            <p>
+                <h2>Hobbies:</h2>
+                <ul>
+                    <li>Photographing </li>
+                    <li>Football </li>
+                    <li>Writing code</li>
+                    <li>Sleeping</li> 
+                </ul>
+            </p>
+
+        </div>
+        <div class="about-the-project">
+            <h2>
+                About the website:
+            </h2>
+            <p>
+            The website shows the top 100 cryptocurrencies , price information about each currency.<br><br>
+            ⁕ <b>First page</b> displays the top 100 cryptocurrencies sorted by market cap.<br><br>
+            ⁕ <b>The second page</b> will display real time prices of the selected currencies.<br><br>
+            ⁕ <b>The about page</b> that's what you're in right now.
+            </p>
+        </div>
+    </div>
+</div>
+`;
+    $('#currencies').html(aboutMe);
+
+    const about2 = `<div class="about-me">
+<h1>About Page</h1>
+<hr>
+
+<h2 >Student 4th year software engineering at SCE.</h2><br />
+<p>The Cryptonite site displays virtual currencies and their cost in shekels, dollars and euros. Soon on the site you will be able to see coins and their status in the graph   </p>
+</div>
+`;
+}
+
+$(document).ready(function () {
+    $('#home').click(showCurrencies);
+});
+
+
+sessionStorage.clear();
 deleteLocalStorageCounter()
 footerData();
-showCurrencies();

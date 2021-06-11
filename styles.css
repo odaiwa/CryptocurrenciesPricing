@@ -35,7 +35,7 @@
 body,html {
     height: 100%;
     /* margin:5px; */
-    background-color: #6e8f9e;
+    background-color: #40464d !important;
     position: relative;
     /* background-repeat: no-repeat; */
 }
@@ -95,8 +95,8 @@ img{
     margin :5px;
 }
 .footer{
-    /* position: fixed;
-    left: 0;*/
+    position:static;
+    left: 0;
     bottom: 0; 
     width: 100%;
     background-color: #435b6d;
@@ -117,7 +117,7 @@ img{
     margin: 10px !important;
 }
 .switch{
-    margin-left: 100px;
+    margin-left: 160px;
     display: inline-block;
 }
 #more-info-price{
@@ -180,4 +180,31 @@ img{
     align-items: baseline;
     align-content: center;
     justify-content: center;
+}
+
+.about-me, .about-the-project{
+    color: aliceblue;
+    overflow: auto;
+}
+hr{
+    background-color: aliceblue;
+    width:90%;
+    text-align:center !important;
+}
+.profile-img > img{
+    margin-top: 5px;
+    border: solid 1px black;
+    border-radius: 10px;
+    width: 145px;
+    height: 193px;
+}
+
+.main-loader{
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 1.5s linear infinite; /* Safari */
+    animation: spin 1.5s linear infinite;
 }
