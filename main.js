@@ -1,7 +1,11 @@
 /// <reference path="js/jquery-3.6.0.js" />
 "use strict";
 
-
+/**
+ * in this function we create the card of each currency
+ * and adds them to currencies div.
+ * @param {*} Currencies 
+ */
 function displayCurrencies(Currencies) {
     $("#currencies").empty();
     for (const Currency of Currencies) {
@@ -9,9 +13,10 @@ function displayCurrencies(Currencies) {
         const card = `    
         <div class="card">
             <div class="card__content">
-            <div class="check-box-for-crypto">
-                <input type="checkbox" id="customSwitch1">
-            </div>
+            <label class="switch">
+                <input type="checkbox" onclick="selectCoin('${Currency.symbol}')">
+                <span class="slider round"></span>
+            </label>
             <h4 class="card__header">${Currency.symbol}</h4>
             <p class="card__info">${Currency.name}</p>
             <div id="more-info-about-currency-${Currency.id}"></div>
@@ -21,24 +26,29 @@ function displayCurrencies(Currencies) {
             </div>
             </div>
         </div>`;
-        
+
         $("#currencies").append(card);
     }
 }
-
+/**
+ * Footer Data.
+ */
 function footerData() {
     const d = new Date();
     const n = d.getFullYear();
-    const footerInfo = `Copyright © ${n} Odai Wattad`
+    const footerInfo = `Copyright © ${n} Odai Wattad`;
     $("#footer-p").html(footerInfo);
 }
 
-
+/**
+ * This Function will display the more info about selected currency
+ * if the data in the LocalStorage is invalid (passed more than two mins) 
+ * it will make an API request for the specific currency and get the data about it.
+ * @param {*} id 
+ */
 function MoreInfoForCurrency(id) {
-    // console.log(id)
     const moreInfoAboutCurrency = $(`#more-info-about-currency-${id}`);
     if (moreInfoAboutCurrency.text().length > 0) {
-        // console.log(moreInfoAboutCurrency.text())
         moreInfoAboutCurrency.empty();
     }
     else {
@@ -60,8 +70,12 @@ function MoreInfoForCurrency(id) {
     }
 }
 
-async function showData(id) {
 
+/**
+ * this function will get the data from LocalStorage and send it to @function showMoreInfo()
+ * @param {*} id 
+ */
+async function showData(id) {
     $(`#${id}-loader`).show();
     const moreInfo = await MoreInfo(id);
     saveToLocalStorage(moreInfo);
@@ -72,8 +86,12 @@ async function showData(id) {
 
 }
 
-function showMoreInfo(info) {
 
+/**
+ * this function will dispaly the info the exact div for currency
+ * @param {*} info 
+ */
+function showMoreInfo(info) {
     $(`#${info.id}-loader`).show();
     const moreInfoAboutCurrency = $(`#more-info-about-currency-${info.id}`);
     moreInfoAboutCurrency.empty();
@@ -90,9 +108,12 @@ function showMoreInfo(info) {
 
 }
 
-
+/**
+ * this function will save the data to localStorage
+ * it will create currencyInfo Object and save it to localStorage
+ * @param {*} data 
+ */
 function saveToLocalStorage(data) {
-    // console.log(data);
     const timer = new Date().getTime();
     const currencyInfo = {
         id: data.id,
@@ -104,6 +125,12 @@ function saveToLocalStorage(data) {
     }
     localStorage.setItem(data.id, JSON.stringify(currencyInfo));
 }
+
+/**
+ * this function will check if the two mins has passed or not
+ * @param {*} id 
+ * @returns false-true
+ */
 
 function checkTimeStamps(id) {
     const timeNow = new Date().getTime();
@@ -127,8 +154,8 @@ $("#backToTopBtn").on("click", function () {
     $("html, body").animate({ scrollTop: 0 }, 1000);
 });
 
-function showSpecificCountry() {
-    let input = $("#specific-country").val();
+function searchForCurrency() {
+    let input = $("#specific-currency").val();
     if (input.length == 0) {
         Swal.fire(
             'you cannot leave input empty...',
@@ -137,13 +164,8 @@ function showSpecificCountry() {
         )
         showCurrencies();
     }
-
-    let filter, cards, cardContent, title, i;
-    // input = document.getElementById("myFilter");
-    // filter = input.toLowerCase();
+    let cards, cardContent, title, i;
     const tobeSelected = "#currencies .card .card__content ";
-    // cardContainer = $("#currencies");
-    // console.log(cardContainer)
     cards = $("#currencies .card");
     cardContent = $(`${tobeSelected} .card__header`);
     console.log(cardContent[0].firstChild.nodeValue.toLowerCase());
@@ -155,21 +177,53 @@ function showSpecificCountry() {
             $(cards[i]).hide();
         }
     }
-    let numberofC=0;
-    for(let i=0;i<cards.length;i++){
-        if( $(cards[i]).is(':hidden')){
+    let numberofC = 0;
+    for (let i = 0; i < cards.length; i++) {
+        if ($(cards[i]).is(':hidden')) {
             numberofC++;
         }
     }
-    numberofC === cards.length ? errorMsgForCurrenct(input) : Swal.fire('','','success');
-
+    //
+    numberofC === cards.length ? errorMsgForCurrenct(input) : console.log(input);
 
 }
-
-function errorMsgForCurrenct(input){
-    Swal.fire(`there is no currency in name ${input.toLowerCase()}`,'','error');
+/**
+ * this function will show a better shaped alert if the name that has
+ * been supported is not a real name.
+ * @param {string} input 
+ */
+function errorMsgForCurrenct(input) {
+    Swal.fire(`there is no currency in name ${input.toLowerCase()}`, '', 'error');
+    $("#specific-currency").val("");
     showCurrencies();
 }
 
+function selectCoin(symbol) {
+    console.log('Start');
+
+    let n = localStorage.getItem('counter');
+    if(n==='5'){
+        Swal.fire('ddd','dsfsdfs','error');
+        console.log(n);
+        return;
+    }
+    if (n === null) {
+        n = 1;
+    } else {
+        n++;
+    }
+    console.log(n);
+    localStorage.setItem("counter", n);
+
+    console.log('End');
+}
+function deleteLocalStorageCounter(){
+
+    let jsonArray = localStorage.getItem("counter");
+    if(jsonArray){
+        localStorage.removeItem("counter");
+    }
+}
+deleteLocalStorageCounter()
 footerData();
 showCurrencies();
