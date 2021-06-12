@@ -146,21 +146,10 @@ img{
     border-width: 0 3px 3px 0;
     display: inline-block;
     padding: 3px;
-  }/*
-  #backToTopBtn {
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    z-index: 99;
-    padding: 3px 10px;
-}*/
+  }
   .input-name{
       margin: 50px auto;;
       height: 40px;
-      /* text-align: center; */
-      /* font-size: xx-large; */
-      /* align-content: center; */
   }
 
 #specific-currency{
@@ -214,4 +203,8 @@ hr{
     flex-direction:  row;
     flex-wrap: wrap;
     justify-content: center;
+}
+#aboutComponent{
+    text-align: center;
+    padding: 5px;
 }

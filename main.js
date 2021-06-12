@@ -369,10 +369,9 @@ function about() {
 }
 
 $(document).ready(function () {
+    sessionStorage.clear();
+    deleteLocalStorageCounter()
+    footerData();
     $('#home').click(showCurrencies);
+    $('#about').click(about);
 });
-
-
-sessionStorage.clear();
-deleteLocalStorageCounter()
-footerData();
