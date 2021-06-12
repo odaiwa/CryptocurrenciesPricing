@@ -328,7 +328,7 @@ function about() {
     const aboutMe =
         `<div id="aboutComponent">
     <div class="profile-img">
-        <img src="assets/images/IMG-0383.jpg">
+        <img src="assets/images/IMG-0383.JPG">
     </div>
     <div class="about-card">
         <div class="about-me">
