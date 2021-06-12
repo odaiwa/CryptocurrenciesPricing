@@ -208,3 +208,10 @@ hr{
     -webkit-animation: spin 1.5s linear infinite; /* Safari */
     animation: spin 1.5s linear infinite;
 }
+
+.data-here{
+    display: flex;
+    flex-direction:  row;
+    flex-wrap: wrap;
+    justify-content: center;
+}

@@ -13,7 +13,7 @@ function displayCurrencies(Currencies) {
         <div class="card" id=${Currency.symbol}>
             <div class="card__content">
             <label class="switch">
-                <input id="${Currency.symbol}Checkbox" type="checkbox" onclick="selectCoin('${Currency.symbol}',${event})">
+                <input id="${Currency.symbol}Checkbox" type="checkbox" onclick="selectCoin('${Currency.symbol}',event)">
                 <span  class="slider round"></span>
             </label>
             <h4 class="card__header">${Currency.symbol}</h4>
@@ -26,13 +26,12 @@ function displayCurrencies(Currencies) {
             </div>
         </div>`;
 
-
+        $('.main-loader').hide();
         $("#currencies").append(card);
-
     }
 }
 
-$(".switch").on("click",function(event){
+$(".switch").on("click", function (event) {
     console.log();
 });
 
@@ -161,7 +160,8 @@ $("#backToTopBtn").on("click", function () {
     $("html, body").animate({ scrollTop: 0 }, 1000);
 });
 
-function searchForCurrency() {
+
+function searchCoinByID() {
     let input = $("#specific-currency").val();
     if (input.length == 0) {
         Swal.fire(
@@ -169,13 +169,12 @@ function searchForCurrency() {
             'you must support currency name',
             'error'
         )
-        showCurrencies();
     }
     let cards, cardContent, title, i;
     const tobeSelected = "#currencies .card .card__content ";
     cards = $("#currencies .card");
     cardContent = $(`${tobeSelected} .card__header`);
-    console.log(cardContent[0].firstChild.nodeValue.toLowerCase());
+    // console.log(cardContent[0].firstChild.nodeValue.toLowerCase());
     for (i = 0; i < cards.length; i++) {
         title = (cardContent[i].firstChild.nodeValue.toLowerCase());
         if (title === input.toLowerCase()) {
@@ -190,43 +189,7 @@ function searchForCurrency() {
             numberofC++;
         }
     }
-    //
     numberofC === cards.length ? errorMsgForCurrenct(input) : console.log(input);
-
-}
-
-function searchCoinByID() {
-    let coinID = $("#specific-currency").val().toLowerCase();
-    if (coinID) {
-        let cards = $("#currencies .card");
-
-        for (let card of cards) {
-            if (card.innerText.toLowerCase().includes(coinID)) {
-                $(card).show();
-            }
-            else {
-                $(card).hide();
-            }
-        }
-    }
-    else {
-        Swal.fire(
-            'you cannot leave input empty...',
-            'you must support currency name',
-            'error'
-        )
-        showCurrencies();
-    }
-    let cards = $("#currencies .card");
-
-    let numberofC = 0;
-    for (let i = 0; i < cards.length; i++) {
-        if ($(cards[i]).is(':hidden')) {
-            numberofC++;
-        }
-    }
-    //
-    numberofC === cards.length ? errorMsgForCurrenct(coinID) : console.log(coinID);
 
 }
 
@@ -236,19 +199,120 @@ function searchCoinByID() {
  * @param {string} input 
  */
 function errorMsgForCurrenct(input) {
-    Swal.fire(`there is no currency in name ${input.toLowerCase()}`, '', 'error');
+    Swal.fire(` ${input.toLowerCase()} was not found`, '', 'error');
     $("#specific-currency").val("");
-    showCurrencies();
 }
 
-function selectCoin(symbol){
-    if($(`#${symbol}Checkbox`).prop('checked') == true){
-        sessionStorage.setItem(symbol,symbol);
-        console.log(`${symbol} has been selected`);
-    }else{
-        sessionStorage.removeItem(symbol);
-        console.log(`${symbol} has been removed`);
+function selectCoin(symbol, event) {
 
+    if ($(`#${symbol}Checkbox`).prop('checked') == false && sessionStorage.getItem(symbol) !== null) {
+        sessionStorage.removeItem(symbol)
+        console.log(`${symbol} has been deleted.`);
+    }
+    else if (sessionStorage.length < 5) {
+
+        if ($(`#${symbol}Checkbox`).prop('checked') == true) {
+            sessionStorage.setItem(symbol, symbol);
+            console.log(`${symbol} has been selected`);
+        } else if ($(`#${symbol}Checkbox`).prop('checked') == false) {
+            sessionStorage.removeItem(symbol);
+            console.log(`${symbol} has been removed`);
+        }
+    } else {
+        $('#currencyModal').html(
+            ` 
+            <div class="modal fade" id="exampleModalCenter" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">choose currencies</h5>
+                  <h5 class="modal-title">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div>
+                  ${getSessionData().join('\n')}
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary modal-ok" data-dismiss="modal">Save</button>
+                  <button type="button" class="btn btn-secondary close" data-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>`);
+        $(".modal").modal("show");
+        $(`#${symbol}Checkbox`).prop('checked')
+
+        $(".modal-ok").on('click', function () {
+            const inputs = $(".modal-body").find('input');
+            let countChecked = 0;
+            for (let i = 0; i < inputs.length; i++) {
+                const isChecked = $(inputs[i]).is(":checked");
+                const currency = $(inputs[i]).attr("id").replace("Input", "");
+                if (!isChecked) {
+                    // uncheck the elements in the HTML page
+                    sessionStorage.removeItem(currency);
+                    $(`#${currency}Checkbox`).prop("checked", false);
+                } else {
+                    countChecked++;
+                }
+            }
+            if (countChecked === 5) {
+                $(`#${symbol}Checkbox`).prop('checked', false);
+            }
+            else {
+                sessionStorage.setItem(symbol,symbol)
+                $(`#${symbol}Checkbox`).prop('checked', true);
+            }
+            //removing the click events 
+            $("#modalOk").off('click');
+            $("#modalCancel").off('click');
+        });
+        $(".close").on('click', function () {
+            $(".modal").modal("hide");
+            $(`#${symbol}Checkbox`).prop('checked', false);
+
+            $(".modal-ok").off('click');
+            $(".close").off('click');
+        });
+
+    }
+}
+
+
+function getSessionData() {
+    let i = 0, arrayCoins = [], sKey;
+
+    for (; sKey = sessionStorage.key(i); i++) {
+        arrayCoins[i] = window.sessionStorage.getItem(sKey);
+    }
+
+    let theseCheckBoxes = arrayCoins.map(function (element) {   // <-- map instead of forEach
+        let symbol = element;
+
+        return `<div>
+                    <input type="checkbox" id="${symbol}Input" name="cpg_services" value="${symbol}" checked onclick="replaceCoin(event,'${symbol}')" />
+                    <label for="${symbol}">${element}</label>
+                </div>`});
+
+    return theseCheckBoxes;
+}
+
+function replaceCoin(event, symbolCoin) {
+
+    if (event.target.checked === false) {
+        localStorage.removeItem(event.target.value);
+        localStorage.setItem(symbolCoin, symbolCoin);
+
+        $("#toggle1" + event.target.value).prop("checked", false);
+        $("#toggle1" + symbolCoin).prop("checked", true);
+    }
+
+    else {
+        localStorage.setItem(symbolCoin, symbolCoin);
     }
 }
 
@@ -302,15 +366,6 @@ function about() {
 </div>
 `;
     $('#currencies').html(aboutMe);
-
-    const about2 = `<div class="about-me">
-<h1>About Page</h1>
-<hr>
-
-<h2 >Student 4th year software engineering at SCE.</h2><br />
-<p>The Cryptonite site displays virtual currencies and their cost in shekels, dollars and euros. Soon on the site you will be able to see coins and their status in the graph   </p>
-</div>
-`;
 }
 
 $(document).ready(function () {
